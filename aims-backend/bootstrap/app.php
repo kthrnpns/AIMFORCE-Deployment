@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Behind a hosting proxy (Railway etc.): trust X-Forwarded-* so URLs are built with https.
+        $middleware->trustProxies(at: '*');
+
         // role:admin|gm  -> only users holding one of these roles (spatie/laravel-permission)
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,

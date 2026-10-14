@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
@@ -36,13 +37,29 @@ class AuthController extends Controller
             'mfa_expires_at' => now()->addMinutes(5),
         ])->save();
 
-        Log::info("MFA Code for {$user->email}: {$mfaCode}");
+        // On a developer's machine the code is logged and shown on screen; everywhere else it is only emailed.
+        $local = app()->environment('local', 'testing');
+        if ($local) {
+            Log::info("MFA Code for {$user->email}: {$mfaCode}");
+        }
+
+        try {
+            Mail::raw(
+                "Your AIMS sign-in code is {$mfaCode}. It expires in 5 minutes.\n\nIf you did not try to sign in, change your password.",
+                fn ($m) => $m->to($user->email)->subject('Your AIMS sign-in code')
+            );
+        } catch (\Throwable $e) {
+            report($e);
+            if (! $local) {
+                return response()->json(['message' => 'We could not send your sign-in code. Try again later or contact the administrator.'], 503);
+            }
+        }
 
         return response()->json([
             'mfa_required' => true,
             'email' => $user->email,
-            'message' => 'MFA code generated. Check log or dev_code.',
-            'dev_code' => $mfaCode, // Included for convenient local testing
+            'message' => 'We emailed you a 6-digit sign-in code.',
+            ...($local ? ['dev_code' => $mfaCode] : []),
         ]);
     }
 
