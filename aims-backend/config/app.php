@@ -123,4 +123,15 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    | First administrator, created or updated by `php artisan aims:ensure-admin`
+    | (run on every deploy). Leave ADMIN_PASSWORD unset to skip it.
+    */
+
+    'bootstrap_admin' => [
+        'name' => env('ADMIN_NAME', 'Administrator'),
+        'email' => env('ADMIN_EMAIL'),
+        'password' => env('ADMIN_PASSWORD'),
+    ],
+
 ];
