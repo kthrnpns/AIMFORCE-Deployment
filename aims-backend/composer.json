@@ -14,8 +14,8 @@
         "resend/resend-php": "^1.16",
         "spatie/laravel-activitylog": "^4.12",
         "spatie/laravel-permission": "^6.25",
-        "symfony/brevo-mailer": "^8.1",
-        "symfony/http-client": "^8.1"
+        "symfony/brevo-mailer": "^7.2",
+        "symfony/http-client": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -86,6 +86,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "platform": {
+            "php": "8.2.34"
         }
     },
     "minimum-stability": "stable",
