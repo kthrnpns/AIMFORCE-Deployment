@@ -13,7 +13,9 @@
         "laravel/tinker": "^2.10.1",
         "resend/resend-php": "^1.16",
         "spatie/laravel-activitylog": "^4.12",
-        "spatie/laravel-permission": "^6.25"
+        "spatie/laravel-permission": "^6.25",
+        "symfony/brevo-mailer": "^8.1",
+        "symfony/http-client": "^8.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

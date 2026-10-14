@@ -65,6 +65,11 @@ return [
             'transport' => 'resend',
         ],
 
+        // Brevo HTTPS API (free plan, sender verified per address, no own domain needed).
+        'brevo' => [
+            'transport' => 'brevo',
+        ],
+
         'sendmail' => [
             'transport' => 'sendmail',
             'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
